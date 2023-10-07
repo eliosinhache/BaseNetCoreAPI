@@ -1,8 +1,17 @@
+using BaseNetCoreAPI.Data;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var connectionString = builder.Configuration.GetConnectionString("HotelListingDBConnectionString");
+
+//Entity Framework Config
+//builder.Services.AddDBContext<HotelListingDbContext>(options =>
+//{
+//    options.UseSqlServer(connectionString);
+//});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -15,6 +24,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Host.UseSerilog((ctx, logerConfig) => logerConfig.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
+
+builder.Services.AddScoped(typeof(IHotelListingDbContext),typeof(HotelListingDbContext));
 
 var app = builder.Build();
 
