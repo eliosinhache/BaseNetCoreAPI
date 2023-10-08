@@ -1,6 +1,7 @@
 using BaseNetCoreAPI.Configurations;
 using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
+using BaseNetCoreAPI.Middleware;
 using BaseNetCoreAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSerilogRequestLogging();
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
+using BaseNetCoreAPI.Exceptions;
 using BaseNetCoreAPI.Models.Country;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,8 @@ namespace BaseNetCoreAPI.Controllers
         {
             var result = await _countriesRepository.GetDetails(id);
             if (result == null)
-                return NotFound();
+                //return NotFound();
+                throw new NotFoundException(nameof(GetCountry), id);
             return Ok(_mapper.Map<GetCountryDto>(result));
         }
         [HttpGet]
