@@ -5,9 +5,13 @@ namespace BaseNetCoreAPI.Data
 {
     public interface IHotelListingDbContext
     {
-        ActionResult<IEnumerable<Country>> GetCountries();
+        IEnumerable<Country> GetCountries();
         Country GetCounty(int id);
-        ActionResult<Country> CreateCountry(Country country);
-        ActionResult<Country> UpdateCountry(Country country);
+        Country CreateCountry(Country country);
+        Country UpdateCountry(Country country);
+        //Task<List<T>> GetCountries();
+        //Task<T> GetCounty(int id);
+        //Task<T> CreateCountry(Country country);
+        //Task<T> UpdateCountry(Country country);
     }
 }

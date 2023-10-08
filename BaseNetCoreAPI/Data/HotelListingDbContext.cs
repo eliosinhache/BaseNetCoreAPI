@@ -12,15 +12,15 @@ namespace BaseNetCoreAPI.Data
             new Country(){ Id=3, Name="Uruguay", ShortName="UY" },
         };
 
-        public ActionResult<Country> CreateCountry(Country country)
+        public Country CreateCountry(Country country)
         {
             CountryDB.Add(country);
-            return new OkObjectResult(country);
+            return country;
         }
 
-        public ActionResult<IEnumerable<Country>> GetCountries()
+        public IEnumerable<Country> GetCountries()
         {
-            return  new OkObjectResult(CountryDB);
+            return  CountryDB;
         }
 
         public Country GetCounty(int id)
@@ -29,12 +29,12 @@ namespace BaseNetCoreAPI.Data
             return result;
         }
 
-        public ActionResult<Country> UpdateCountry(Country country)
+        public Country UpdateCountry(Country country)
         {
             var countryFinded = CountryDB.FirstOrDefault(x => x.Id == country.Id);
             countryFinded.Name = country.Name;
             countryFinded.ShortName = country.ShortName;
-            return new OkObjectResult(CountryDB.FirstOrDefault(x => x.Id == country.Id));
+            return CountryDB.FirstOrDefault(x => x.Id == country.Id);
         }
     }
 }

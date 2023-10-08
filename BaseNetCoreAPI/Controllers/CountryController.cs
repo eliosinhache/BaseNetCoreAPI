@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
 using BaseNetCoreAPI.Models.Country;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +10,19 @@ namespace BaseNetCoreAPI.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        private readonly IHotelListingDbContext _context;
         private readonly IMapper _mapper;
-        public CountryController(IHotelListingDbContext context, IMapper mapper)
+        private readonly ICountriesRepository _countriesRepository;
+
+        public CountryController(IMapper mapper, ICountriesRepository countriesRepository)
         {
-            _context = context;
             _mapper = mapper;
+            this._countriesRepository = countriesRepository;
         }
 
         [HttpGet("{id}")]
         public ActionResult<Country> GetCountries(int id)
         {
-            var result =  _context.GetCounty(id);
+            var result = _countriesRepository.GetAsync(id);
             if (result == null)
                 return NotFound();
             return Ok(_mapper.Map<GetCountryDto>(result));
@@ -28,16 +30,16 @@ namespace BaseNetCoreAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Country>> GetCountries()
         {
-            return  _context.GetCountries();
+            return  Ok(_countriesRepository.GetAllAsync());
         }
 
         [HttpPost]
         public ActionResult<Country> Post(CreateCountryDto country)
         {
             var Newcountry = _mapper.Map<Country>(country);
-            var result = _context.CreateCountry(Newcountry);
-            if (result.Result != null)
-                return result;
+            var result = _countriesRepository.AddAsync(Newcountry);
+            if (result != null)
+                return Ok(result);
             return BadRequest();
         }
 
@@ -45,10 +47,10 @@ namespace BaseNetCoreAPI.Controllers
         public ActionResult<Country> Put(CreateCountryDto country)
         {
             var updateCountry = _mapper.Map<Country>(country);
-            var khe = _context.GetCounty(updateCountry.Id);
+            var khe = _countriesRepository.GetAsync(updateCountry.Id);
             if (khe == null)
                 return NotFound("CountryId not found");
-            var result = _context.UpdateCountry(updateCountry);
+            var result = _countriesRepository.UpdateAsync(updateCountry);
             return Ok(_mapper.Map<GetCountryDto>(result));
         }
     }

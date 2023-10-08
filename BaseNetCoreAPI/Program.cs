@@ -1,5 +1,7 @@
 using BaseNetCoreAPI.Configurations;
+using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
+using BaseNetCoreAPI.Repository;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +31,8 @@ builder.Host.UseSerilog((ctx, logerConfig) => logerConfig.WriteTo.Console().Read
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddScoped(typeof(IHotelListingDbContext),typeof(HotelListingDbContext));
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 
 var app = builder.Build();
 
