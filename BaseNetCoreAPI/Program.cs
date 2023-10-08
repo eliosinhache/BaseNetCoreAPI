@@ -2,19 +2,20 @@ using BaseNetCoreAPI.Configurations;
 using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
 using BaseNetCoreAPI.Repository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("HotelListingDBConnectionString");
-
+var connectionString = builder.Configuration.GetConnectionString("LocalHotelListingDBConnectionString");
 //Entity Framework Config
-//builder.Services.AddDBContext<HotelListingDbContext>(options =>
-//{
-//    options.UseSqlServer(connectionString);
-//});
+builder.Services.AddDbContext<HotelListingDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,7 +31,6 @@ builder.Host.UseSerilog((ctx, logerConfig) => logerConfig.WriteTo.Console().Read
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
-builder.Services.AddScoped(typeof(IHotelListingDbContext),typeof(HotelListingDbContext));
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 

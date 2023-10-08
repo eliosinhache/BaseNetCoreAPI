@@ -3,6 +3,7 @@ using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
 using BaseNetCoreAPI.Models.Country;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BaseNetCoreAPI.Controllers
 {
@@ -20,38 +21,70 @@ namespace BaseNetCoreAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Country> GetCountries(int id)
+        public async Task<ActionResult<Country>> GetCountry(int id)
         {
-            var result = _countriesRepository.GetAsync(id);
+            var result = await _countriesRepository.GetDetails(id);
             if (result == null)
                 return NotFound();
             return Ok(_mapper.Map<GetCountryDto>(result));
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Country>> GetCountries()
+        public async Task<ActionResult<IEnumerable<GetCountryDto>>> GetCountries()
         {
-            return  Ok(_countriesRepository.GetAllAsync());
+            var countries = await _countriesRepository.GetAllAsync();
+            var records = _mapper.Map<List<GetCountryDto>>(countries);
+            return  Ok(records);
         }
 
         [HttpPost]
-        public ActionResult<Country> Post(CreateCountryDto country)
+        public async Task<ActionResult<Country>> Post(CreateCountryDto country)
         {
             var Newcountry = _mapper.Map<Country>(country);
-            var result = _countriesRepository.AddAsync(Newcountry);
-            if (result != null)
-                return Ok(result);
-            return BadRequest();
+            await _countriesRepository.AddAsync(Newcountry);
+            return CreatedAtAction("GetCountry", new { id = Newcountry.Id });
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCountry(int id)
+        {
+            var country = await _countriesRepository.GetAsync(id);
+            if (country == null)
+            {
+                return NotFound();
+            }
+
+            await _countriesRepository.DeleteAsync(id);
+
+            return NoContent();
+        }
+
+
         [HttpPut]
-        public ActionResult<Country> Put(CreateCountryDto country)
+        public async Task<ActionResult<Country>> Put(UpdateCountryDto country)
         {
             var updateCountry = _mapper.Map<Country>(country);
-            var khe = _countriesRepository.GetAsync(updateCountry.Id);
-            if (khe == null)
-                return NotFound("CountryId not found");
-            var result = _countriesRepository.UpdateAsync(updateCountry);
-            return Ok(_mapper.Map<GetCountryDto>(result));
+            try
+            {
+                await _countriesRepository.UpdateAsync(updateCountry);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await CountryExists(country.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        private async Task<bool> CountryExists(int id)
+        {
+            return await _countriesRepository.Exists(id);
         }
     }
 }

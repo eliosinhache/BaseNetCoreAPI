@@ -12,9 +12,10 @@ namespace BaseNetCoreAPI.Repository
             this._context = context;
         }
 
-        public Task<Country> GetDetails(int id)
+        public async Task<Country> GetDetails(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Country.FindAsync(id);
+            return result;
             //return _context.GetCounty(id);
         }
     }
