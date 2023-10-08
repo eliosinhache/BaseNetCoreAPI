@@ -1,4 +1,4 @@
-﻿using BaseNetCoreAPI.Dtos;
+﻿using BaseNetCoreAPI.Models.Country;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaseNetCoreAPI.Data
@@ -6,8 +6,8 @@ namespace BaseNetCoreAPI.Data
     public interface IHotelListingDbContext
     {
         ActionResult<IEnumerable<Country>> GetCountries();
-        ActionResult<Country> GetCounty(int id);
-        ActionResult<Country> CreateCountry(CreateCountryDto country);
-        ActionResult<Country> UpdateCountry(CreateCountryDto country);
+        Country GetCounty(int id);
+        ActionResult<Country> CreateCountry(Country country);
+        ActionResult<Country> UpdateCountry(Country country);
     }
 }

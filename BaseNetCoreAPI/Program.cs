@@ -1,3 +1,4 @@
+using BaseNetCoreAPI.Configurations;
 using BaseNetCoreAPI.Data;
 using Serilog;
 
@@ -24,6 +25,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Host.UseSerilog((ctx, logerConfig) => logerConfig.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
+
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddScoped(typeof(IHotelListingDbContext),typeof(HotelListingDbContext));
 

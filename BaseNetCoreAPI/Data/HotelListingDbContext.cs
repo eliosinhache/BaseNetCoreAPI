@@ -1,4 +1,4 @@
-﻿using BaseNetCoreAPI.Dtos;
+﻿using BaseNetCoreAPI.Models.Country;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +12,9 @@ namespace BaseNetCoreAPI.Data
             new Country(){ Id=3, Name="Uruguay", ShortName="UY" },
         };
 
-        public ActionResult<Country> CreateCountry(CreateCountryDto country)
+        public ActionResult<Country> CreateCountry(Country country)
         {
-            Country newCountry = new Country() { Id = country.Id, Name = country.Name, ShortName = country.ShortName };
-            CountryDB.Add(newCountry);
+            CountryDB.Add(country);
             return new OkObjectResult(country);
         }
 
@@ -24,16 +23,15 @@ namespace BaseNetCoreAPI.Data
             return  new OkObjectResult(CountryDB);
         }
 
-        public ActionResult<Country> GetCounty(int id)
+        public Country GetCounty(int id)
         {
             var result = CountryDB.FirstOrDefault(x => x.Id == id);
-            return new OkObjectResult(result);
+            return result;
         }
 
-        public ActionResult<Country> UpdateCountry(CreateCountryDto country)
+        public ActionResult<Country> UpdateCountry(Country country)
         {
             var countryFinded = CountryDB.FirstOrDefault(x => x.Id == country.Id);
-            //int index = CountryDB.IndexOf(countryFinded);
             countryFinded.Name = country.Name;
             countryFinded.ShortName = country.ShortName;
             return new OkObjectResult(CountryDB.FirstOrDefault(x => x.Id == country.Id));
