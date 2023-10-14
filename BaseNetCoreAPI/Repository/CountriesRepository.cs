@@ -1,4 +1,5 @@
-﻿using BaseNetCoreAPI.Contracts;
+﻿using AutoMapper;
+using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
 
 namespace BaseNetCoreAPI.Repository
@@ -7,7 +8,7 @@ namespace BaseNetCoreAPI.Repository
     {
         private readonly HotelListingDbContext _context;
 
-        public CountriesRepository(HotelListingDbContext context) : base(context)
+        public CountriesRepository(HotelListingDbContext context, IMapper mapper) : base(context, mapper)
         {
             this._context = context;
         }

@@ -2,6 +2,7 @@
 using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
 using BaseNetCoreAPI.Exceptions;
+using BaseNetCoreAPI.Models;
 using BaseNetCoreAPI.Models.Country;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,12 +31,23 @@ namespace BaseNetCoreAPI.Controllers
                 throw new NotFoundException(nameof(GetCountry), id);
             return Ok(_mapper.Map<GetCountryDto>(result));
         }
-        [HttpGet]
+
+        [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<GetCountryDto>>> GetCountries()
         {
             var countries = await _countriesRepository.GetAllAsync();
             var records = _mapper.Map<List<GetCountryDto>>(countries);
             return  Ok(records);
+        }
+
+        [HttpGet]
+        //GET: api/countries/?StartIndex=0&Pagesize=2&PageNumber=1
+        public async Task<ActionResult<PageResult<GetCountryDto>>> GetPagedCountries(
+            [FromQuery] QueryParameters queryParameters)
+        {
+            var pagedCountriesResult = await _countriesRepository.GetAllAsync<GetCountryDto>(queryParameters);
+            //var records = _mapper.Map<List<GetCountryDto>>(countries);
+            return  Ok(pagedCountriesResult);
         }
 
         [HttpPost]

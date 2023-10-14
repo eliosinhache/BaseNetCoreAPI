@@ -1,3 +1,4 @@
+using AutoMapper;
 using BaseNetCoreAPI.Configurations;
 using BaseNetCoreAPI.Contracts;
 using BaseNetCoreAPI.Data;
@@ -40,7 +41,7 @@ builder.Services.AddResponseCaching(options =>
 {
     options.MaximumBodySize = 1024; //largest cacheable byte of date (1 bm cache)
     options.UseCaseSensitivePaths = true; //diferences cache between Hotel call and hotel call
-})
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -66,13 +67,13 @@ app.Use(async (context, next) =>
     context.Response.GetTypedHeaders().CacheControl =
     new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
     {
-        Public = true;
-        MaxAge = TimeSpan.FromSeconds(10);
+        Public = true,
+        MaxAge = TimeSpan.FromSeconds(10)
     };
-context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-    new string[] {"Accept-Encoding"};
-await next();
-})
+    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+        new string[] { "Accept-Encoding" };
+    await next();
+});
 
 app.UseAuthorization();
 
