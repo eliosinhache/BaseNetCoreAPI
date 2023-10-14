@@ -1,5 +1,4 @@
 ﻿using BaseNetCoreAPI.Models;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BaseNetCoreAPI.Contracts
 {

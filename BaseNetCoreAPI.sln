@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseNetCoreAPI", "BaseNetCoreAPI\BaseNetCoreAPI.csproj", "{5DEF6F4C-8566-476E-BA7E-0D9F027CE529}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseNetCoreAPI", "BaseNetCoreAPI\BaseNetCoreAPI.csproj", "{5DEF6F4C-8566-476E-BA7E-0D9F027CE529}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseNetCoreApi.Data", "BaseNetCoreApi.Data\BaseNetCoreApi.Data.csproj", "{E82E745E-B1CA-4A57-AAD4-17E923A842EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseNetCoreApi.Core", "BaseNetCoreApi.Core\BaseNetCoreApi.Core.csproj", "{A16ADD75-091D-4F18-A776-DB3549B21364}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{5DEF6F4C-8566-476E-BA7E-0D9F027CE529}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DEF6F4C-8566-476E-BA7E-0D9F027CE529}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DEF6F4C-8566-476E-BA7E-0D9F027CE529}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E82E745E-B1CA-4A57-AAD4-17E923A842EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E82E745E-B1CA-4A57-AAD4-17E923A842EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E82E745E-B1CA-4A57-AAD4-17E923A842EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E82E745E-B1CA-4A57-AAD4-17E923A842EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A16ADD75-091D-4F18-A776-DB3549B21364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A16ADD75-091D-4F18-A776-DB3549B21364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A16ADD75-091D-4F18-A776-DB3549B21364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A16ADD75-091D-4F18-A776-DB3549B21364}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
